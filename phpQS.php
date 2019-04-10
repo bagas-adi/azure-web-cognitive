@@ -46,8 +46,7 @@ $connectionString = "DefaultEndpointsProtocol=https;AccountName=bagasap90;Accoun
 // Create blob client.
 $blobClient = BlobRestProxy::createBlobService($connectionString);
 
-$fileToUpload = "business_meeting.jpg";
-
+$fileToUpload = "business_meeting.jpg"; 
 if (!isset($_GET["Cleanup"])) {
     // Create container options object.
     $createContainerOptions = new CreateContainerOptions();
@@ -94,7 +93,7 @@ if (!isset($_GET["Cleanup"])) {
 
         // List blobs.
         $listBlobsOptions = new ListBlobsOptions();
-        $listBlobsOptions->setPrefix("HelloWorld");
+        $listBlobsOptions->setPrefix("business_meeting");
 
         echo "These are the blobs present in the container: ";
 
@@ -111,7 +110,12 @@ if (!isset($_GET["Cleanup"])) {
 
         // Get blob.
         echo "This is the content of the blob uploaded: ";
-        $blob = $blobClient->getBlob($containerName, $fileToUpload);
+        // $blob = $blobClient->getBlob($containerName, $fileToUpload);
+        // tambahan
+        $blob = $this->blobRestProxy->getBlob($this->containerName, $blob_name.'.jpg');
+        header("Content-Type:image/jpeg");
+        header('Content-Disposition: attachment; filename="' . $blob_name . '"');
+        // end
         fpassthru($blob->getContentStream());
         echo "<br />";
     }
