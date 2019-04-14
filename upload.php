@@ -1,10 +1,12 @@
 <?php
+  echo "awal";
   $account_name ="bagasap90";
   $account_key = "0rtBRyCS9TAJL3VuBD7Z8fleUubbG26hIw3SxKfWCAilygRs7ChYs6EC2jj4LnE80SSwfqU+qd3hsLHV48/iuw==";
   $key = base64_decode($account_key);
   $container_name = "image";
   $file_name = "HelloWorld.txt";
 
+  echo "<br/>create auth";
   date_default_timezone_set ( 'GMT' ); 
   $date = date ( "D, j M Y H:i:s T" ); 
   $blobname = date("d-M-Y")."_".$file_name;
@@ -14,6 +16,7 @@
   
   $signature_str = base64_encode(hash_hmac('sha256', $utf8_encode_str, $key, true));
 
+  echo "<br/>Uploading the file";
   // Uploading blob
   $fdata = file_get_contents($file_name);
 
@@ -22,7 +25,7 @@
    "x-ms-blob-type: BlockBlob",
    "x-ms-date: " . $date,
    "x-ms-version: " . $version,
-   "Authorization: SharedKey $account_name:" . $signature_str,
+   "Authorization: SharedKey ".$account_name.":" . $signature_str,
    "Content-Type: text/plain; charset=UTF-8",
    "Content-Length: " . strlen($fdata),
    );
@@ -36,4 +39,5 @@
   curl_setopt($ch, CURLOPT_POSTFIELDS, $fdata);
   curl_setopt ( $ch, CURLOPT_HEADER, True );
   curl_exec ( $ch );
+  echo "<br/>finish";
 ?>
