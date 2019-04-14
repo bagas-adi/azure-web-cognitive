@@ -31,7 +31,7 @@
 #  - Storage Emulator - http://azure.microsoft.com/en-us/documentation/articles/storage-use-emulator/ 
 #
 **/
-
+header('Content-Type: text/html; charset=utf-8');
 require_once 'vendor/autoload.php';
 require_once "./random_string.php";
 
@@ -91,7 +91,7 @@ if (!isset($_GET["Cleanup"])) {
 
         //Upload blob
         $blobClient->createBlockBlob($containerName, $fileToUpload, $content);
-        header("Content-Type:image/jpeg");
+        // header("Content-Type:image/jpeg");
         // header('Content-Disposition: attachment; filename="' . $blob_name . '"');
         // List blobs.
         $listBlobsOptions = new ListBlobsOptions();
