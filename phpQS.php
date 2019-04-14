@@ -120,7 +120,7 @@ if (!isset($_GET["Cleanup"])) {
         // header("Content-Type:image/jpeg");
         // header('Content-Disposition: attachment; filename="' . $blob_name . '"');
         // end
-        // fpassthru($blob->getContentStream());
+        fpassthru($blob->getContentStream());
         echo "<br />";
     }
     catch(ServiceException $e){
