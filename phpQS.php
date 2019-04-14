@@ -92,7 +92,7 @@ if (!isset($_GET["Cleanup"])) {
         //Upload blob
         $blobClient->createBlockBlob($containerName, $fileToUpload, $content);
         header("Content-Type:image/jpeg");
-        header('Content-Disposition: attachment; filename="' . $blob_name . '"');
+        // header('Content-Disposition: attachment; filename="' . $blob_name . '"');
         // List blobs.
         $listBlobsOptions = new ListBlobsOptions();
         $listBlobsOptions->setPrefix("business_meeting");
