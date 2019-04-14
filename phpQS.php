@@ -112,7 +112,7 @@ if (!isset($_GET["Cleanup"])) {
 
         // Get blob.
         echo "This is the content of the blob uploaded: ";
-        echo '<img src="'.$blob->getUrl().'"'/>
+        echo '<img src="'.$blob->getUrl().'"/>';
         // $blob = $blobClient->getBlob($containerName, $fileToUpload);
         // tambahan
         // $blob = $this->blobRestProxy->getBlob($this->containerName, $blob_name.'.jpg');
