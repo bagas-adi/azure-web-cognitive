@@ -3,10 +3,11 @@
     <head>
         <title>Analyze Sample</title>
         <script src="jquery-3.3.1.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     </head>
     <body>
         <h1>Analyze image:</h1>
-    Enter the URL to an image, then click the <strong>Analyze image</strong> button.
+    <h4>Click the <strong>Analyze image</strong> button to start analyze.</h4>
     <br><br>
 <?php 
 require_once 'vendor/autoload.php';
@@ -66,8 +67,14 @@ if (!isset($_GET["Cleanup"])) {
                 echo $blob->getName().": ".$blob->getUrl()."<br />";
                 echo "<img style='max-width: 300px' src='".$blob->getUrl()."'/><br/>";
                 echo "Image to analyze:</br>";
-    echo '<input type="text" name="inputImage" id="inputImage"
-        value="'.$blob->getUrl().'" />';
+    // echo '<input type="text" class="" name="inputImage" id="inputImage"
+    //     value="'.$blob->getUrl().'" />';
+                ?>
+<div class="form-group">
+  <label for="usr">Image URL:</label>
+  <input type="text" style="max-width: 600px" class="form-control" name="inputImage" id="inputImage" value="<?php echo $blob->getUrl(); ?>" />
+</div>
+                <?php
             }
         
             $listBlobsOptions->setContinuationToken($result->getContinuationToken());
@@ -112,7 +119,9 @@ else
 
 
 <form method="post" action="phpQS.php?Cleanup&containerName=<?php echo $containerName; ?>">
-    <button type="submit">Press to clean up all resources created by this sample</button>
+    <div class="btn btn-group">
+    <button class="btn btn-danger" type="submit">Clean up the Blob</button>
+    <button class="btn btn-primary" onclick="processImage()">Analyze image</button></div>
 </form>
 
     
@@ -169,7 +178,7 @@ else
      
     
     
-    <button onclick="processImage()">Analyze image</button>
+    
     <br><br>
     <div id="wrapper" style="width:1020px; ">
         <div id="jsonOutput" style="width:600px; ">
