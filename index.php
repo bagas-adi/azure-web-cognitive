@@ -66,15 +66,18 @@ if (!isset($_GET["Cleanup"])) {
             {
                 echo $blob->getName().": ".$blob->getUrl()."<br />";
                 
+                echo "The file is uploaded successfully! "; 
     // echo '<input type="text" class="" name="inputImage" id="inputImage"
     //     value="'.$blob->getUrl().'" />';
                 ?>
- <img style='max-width: 300px' src="<?php echo $blob->getUrl(); ?>"/><br/> 
-<h5>Image to analyze:</h5>
+<div class="col-xs-6">
+ <img style='max-width: 300px' src="<?php echo $blob->getUrl(); ?>"/><br/>  
 <div class="form-group">
   <label for="usr">Image URL:</label>
   <input type="text" style="max-width: 600px" class="form-control" name="inputImage" id="inputImage" value="<?php echo $blob->getUrl(); ?>" />
 </div>
+</div>
+<div class="col-xs-6">
 <div id="wrapper" style="width:1020px; ">
         <div id="jsonOutput" style="width:600px; ">
             Response:
@@ -82,12 +85,13 @@ if (!isset($_GET["Cleanup"])) {
             <textarea id="responseTextArea" class="UIInput"
                       style="width:580px; height:400px;"></textarea>
         </div>
-        <<!-- div id="imageDiv" style="width:420px; display:table-cell;">
+        <!-- div id="imageDiv" style="width:420px; display:table-cell;">
             Source image:
             <br><br>
             <img id="sourceImage" width="400" />
         </div> -->
     </div>
+</div>
                 <?php
             }
         
@@ -96,7 +100,6 @@ if (!isset($_GET["Cleanup"])) {
         echo "<br />";
 
         // Get blob.
-        echo "The file has been uploaded! "; 
         echo "<br /><br/><br/>";
     }
     catch(ServiceException $e){ 
