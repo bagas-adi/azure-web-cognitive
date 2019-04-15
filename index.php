@@ -1,37 +1,14 @@
-<?php
-/**----------------------------------------------------------------------------------
-* Microsoft Developer & Platform Evangelism
-*
-* Copyright (c) Microsoft Corporation. All rights reserved.
-*
-* THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, 
-* EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES 
-* OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
-*----------------------------------------------------------------------------------
-* The example companies, organizations, products, domain names,
-* e-mail addresses, logos, people, places, and events depicted
-* herein are fictitious.  No association with any real company,
-* organization, product, domain name, email address, logo, person,
-* places, or events is intended or should be inferred.
-*----------------------------------------------------------------------------------
-**/
-
-/** -------------------------------------------------------------
-# Azure Storage Blob Sample - Demonstrate how to use the Blob Storage service. 
-# Blob storage stores unstructured data such as text, binary data, documents or media files. 
-# Blobs can be accessed from anywhere in the world via HTTP or HTTPS. 
-#
-# Documentation References: 
-#  - Associated Article - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-php 
-#  - What is a Storage Account - http://azure.microsoft.com/en-us/documentation/articles/storage-whatis-account/ 
-#  - Getting Started with Blobs - https://azure.microsoft.com/en-us/documentation/articles/storage-php-how-to-use-blobs/
-#  - Blob Service Concepts - http://msdn.microsoft.com/en-us/library/dd179376.aspx 
-#  - Blob Service REST API - http://msdn.microsoft.com/en-us/library/dd135733.aspx 
-#  - Blob Service PHP API - https://github.com/Azure/azure-storage-php
-#  - Storage Emulator - http://azure.microsoft.com/en-us/documentation/articles/storage-use-emulator/ 
-#
-**/
-header('Content-Type: text/html; charset=utf-8');
+<!DOCTYPE html>
+    <html>
+    <head>
+        <title>Analyze Sample</title>
+        <script src="jquery-3.3.1.min.js"></script>
+    </head>
+    <body>
+        <h1>Analyze image:</h1>
+    Enter the URL to an image, then click the <strong>Analyze image</strong> button.
+    <br><br>
+<?php 
 require_once 'vendor/autoload.php';
 require_once "./random_string.php";
 
@@ -46,25 +23,10 @@ $connectionString = "DefaultEndpointsProtocol=https;AccountName=bagasap90;Accoun
 // Create blob client.
 $blobClient = BlobRestProxy::createBlobService($connectionString);
 
-$fileToUpload = "HelloWorld.txt"; 
+$fileToUpload = "business_meeting.jpg"; 
 if (!isset($_GET["Cleanup"])) {
     // Create container options object.
-    $createContainerOptions = new CreateContainerOptions();
-
-    // Set public access policy. Possible values are
-    // PublicAccessType::CONTAINER_AND_BLOBS and PublicAccessType::BLOBS_ONLY.
-    // CONTAINER_AND_BLOBS:
-    // Specifies full public read access for container and blob data.
-    // proxys can enumerate blobs within the container via anonymous
-    // request, but cannot enumerate containers within the storage account.
-    //
-    // BLOBS_ONLY:
-    // Specifies public read access for blobs. Blob data within this
-    // container can be read via anonymous request, but container data is not
-    // available. proxys cannot enumerate blobs within the container via
-    // anonymous request.
-    // If this value is not specified in the request, container data is
-    // private to the account owner.
+    $createContainerOptions = new CreateContainerOptions(); 
     $createContainerOptions->setPublicAccess(PublicAccessType::CONTAINER_AND_BLOBS);
 
     // Set container metadata.
@@ -78,7 +40,7 @@ if (!isset($_GET["Cleanup"])) {
         $blobClient->createContainer($containerName, $createContainerOptions);
 
         // Getting local file so that we can upload it to Azure
-        $myfile = fopen($fileToUpload, "w") or die("Unable to open file!");
+        $myfile = fopen($fileToUpload, "r") or die("Unable to open file!");
         fclose($myfile);
         
         # Upload file as a block blob
@@ -86,17 +48,14 @@ if (!isset($_GET["Cleanup"])) {
         echo $fileToUpload;
         echo "<br />";
         
-        $content = fopen($fileToUpload, "r");
-        // $options = new CreateBlobOptions();
-        // $options->setBlobContentType("image/jpeg");
-
+        $content = fopen($fileToUpload, "r"); 
         //Upload blob
         $blobClient->createBlockBlob($containerName, $fileToUpload, $content);
         // header("Content-Type:image/jpeg");
         // header('Content-Length: "' . filesize($fileToUpload) . '"');
         // List blobs.
         $listBlobsOptions = new ListBlobsOptions();
-        $listBlobsOptions->setPrefix("HelloWorld");
+        $listBlobsOptions->setPrefix("business_meeting");
 
         echo "These are the blobs present in the container: ";
 
@@ -105,6 +64,10 @@ if (!isset($_GET["Cleanup"])) {
             foreach ($result->getBlobs() as $blob)
             {
                 echo $blob->getName().": ".$blob->getUrl()."<br />";
+                echo "<img style='max-width: 300px' src='".$blob->getUrl()."'/><br/>";
+                echo "Image to analyze:</br>";
+    echo '<input type="text" name="inputImage" id="inputImage"
+        value="'.$blob->getUrl().'" />';
             }
         
             $listBlobsOptions->setContinuationToken($result->getContinuationToken());
@@ -112,29 +75,15 @@ if (!isset($_GET["Cleanup"])) {
         echo "<br />";
 
         // Get blob.
-        echo "This is the content of the blob uploaded: ";
-        // echo '<img src="'.$blob->getUrl().'"/>';
-        $blob = $blobClient->getBlob($containerName, $fileToUpload);
-        // tambahan
-        // $blob = $this->blobRestProxy->getBlob($this->containerName, $blob_name.'.jpg');
-        // header("Content-Type:image/jpeg");
-        // header('Content-Disposition: attachment; filename="' . $blob_name . '"');
-        // end
-        fpassthru($blob->getContentStream());
-        echo "<br />";
+        echo "The file has been uploaded! "; 
+        echo "<br /><br/><br/>";
     }
-    catch(ServiceException $e){
-        // Handle exception based on error codes and messages.
-        // Error codes and messages are here:
-        // http://msdn.microsoft.com/library/azure/dd179439.aspx
+    catch(ServiceException $e){ 
         $code = $e->getCode();
         $error_message = $e->getMessage();
         echo $code.": ".$error_message."<br />";
     }
-    catch(InvalidArgumentTypeException $e){
-        // Handle exception based on error codes and messages.
-        // Error codes and messages are here:
-        // http://msdn.microsoft.com/library/azure/dd179439.aspx
+    catch(InvalidArgumentTypeException $e){ 
         $code = $e->getCode();
         $error_message = $e->getMessage();
         echo $code.": ".$error_message."<br />";
@@ -165,3 +114,75 @@ else
 <form method="post" action="phpQS.php?Cleanup&containerName=<?php echo $containerName; ?>">
     <button type="submit">Press to clean up all resources created by this sample</button>
 </form>
+
+    
+     
+    <script type="text/javascript">
+        function processImage() {  
+            var subscriptionKey = "710eede9cc234728ad05eec3cca146bf"; 
+            var uriBase =
+                "https://southeastasia.api.cognitive.microsoft.com/vision/v2.0/analyze";
+     
+            // Request parameters.
+            var params = {
+                "visualFeatures": "Categories,Description,Color",
+                "details": "",
+                "language": "en",
+            };
+     
+            // Display the image.
+            var sourceImageUrl = document.getElementById("inputImage").value;
+            // document.querySelector("#sourceImage").src = sourceImageUrl;
+     
+            // Make the REST API call.
+            $.ajax({
+                url: uriBase + "?" + $.param(params),
+     
+                // Request headers.
+                beforeSend: function(xhrObj){
+                    xhrObj.setRequestHeader("Content-Type","application/json");
+                    xhrObj.setRequestHeader(
+                        "Ocp-Apim-Subscription-Key", subscriptionKey);
+                },
+     
+                type: "POST",
+     
+                // Request body.
+                data: '{"url": ' + '"' + sourceImageUrl + '"}',
+            })
+     
+            .done(function(data) {
+                // Show formatted JSON on webpage.
+                $("#responseTextArea").val(JSON.stringify(data, null, 2));
+            })
+     
+            .fail(function(jqXHR, textStatus, errorThrown) {
+                // Display error message.
+                var errorString = (errorThrown === "") ? "Error. " :
+                    errorThrown + " (" + jqXHR.status + "): ";
+                errorString += (jqXHR.responseText === "") ? "" :
+                    jQuery.parseJSON(jqXHR.responseText).message;
+                alert(errorString);
+            });
+        };
+    </script>
+     
+    
+    
+    <button onclick="processImage()">Analyze image</button>
+    <br><br>
+    <div id="wrapper" style="width:1020px; ">
+        <div id="jsonOutput" style="width:600px; ">
+            Response:
+            <br><br>
+            <textarea id="responseTextArea" class="UIInput"
+                      style="width:580px; height:400px;"></textarea>
+        </div>
+        <<!-- div id="imageDiv" style="width:420px; display:table-cell;">
+            Source image:
+            <br><br>
+            <img id="sourceImage" width="400" />
+        </div> -->
+    </div>
+    </body>
+    </html>
