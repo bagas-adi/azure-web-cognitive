@@ -96,7 +96,7 @@ if (!isset($_GET["Cleanup"])) {
         // header('Content-Length: "' . filesize($fileToUpload) . '"');
         // List blobs.
         $listBlobsOptions = new ListBlobsOptions();
-        $listBlobsOptions->setPrefix("HelloWorld");
+        $listBlobsOptions->setPrefix("business_meeting");
 
         echo "These are the blobs present in the container: ";
 
@@ -114,7 +114,7 @@ if (!isset($_GET["Cleanup"])) {
         // Get blob.
         echo "This is the content of the blob uploaded: ";
         $blob = $blobClient->getBlob($containerName, $fileToUpload);
-        // echo '<img src="'.$blob->getUrl().'"/>';
+        echo '<img src="'.$blob->getUrl().'"/>';
         // tambahan
         // $blob = $this->blobRestProxy->getBlob($this->containerName, $blob_name.'.jpg');
         // header("Content-Type:image/jpeg");
