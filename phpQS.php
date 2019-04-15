@@ -78,7 +78,7 @@ if (!isset($_GET["Cleanup"])) {
         $blobClient->createContainer($containerName, $createContainerOptions);
 
         // Getting local file so that we can upload it to Azure
-        $myfile = fopen($fileToUpload, "rb") or die("Unable to open file!");
+        $myfile = fopen($fileToUpload, "r") or die("Unable to open file!");
         fclose($myfile);
         
         # Upload file as a block blob
@@ -86,7 +86,7 @@ if (!isset($_GET["Cleanup"])) {
         echo $fileToUpload;
         echo "<br />";
         
-        $content = fopen($fileToUpload, "rb");
+        $content = fopen($fileToUpload, "r");
         // $options = new CreateBlobOptions();
         // $options->setBlobContentType("image/jpeg");
 
@@ -114,7 +114,7 @@ if (!isset($_GET["Cleanup"])) {
         // Get blob.
         echo "This is the content of the blob uploaded: ";
         $blob = $blobClient->getBlob($containerName, $fileToUpload);
-        echo '<img src="'.$blob->getUrl().'"/>';
+        // echo '<img src="'.$blob->getUrl().'"/>';
         // tambahan
         // $blob = $this->blobRestProxy->getBlob($this->containerName, $blob_name.'.jpg');
         // header("Content-Type:image/jpeg");
