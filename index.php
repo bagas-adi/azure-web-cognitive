@@ -5,7 +5,7 @@
         <script src="jquery-3.3.1.min.js"></script>
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     </head>
-    <body>
+    <body class="container">
         <h1>Analyze image:</h1>
     <h4>Click the <strong>Analyze image</strong> button to start analyze.</h4>
     <br><br>
@@ -65,15 +65,29 @@ if (!isset($_GET["Cleanup"])) {
             foreach ($result->getBlobs() as $blob)
             {
                 echo $blob->getName().": ".$blob->getUrl()."<br />";
-                echo "<img style='max-width: 300px' src='".$blob->getUrl()."'/><br/>";
-                echo "Image to analyze:</br>";
+                
     // echo '<input type="text" class="" name="inputImage" id="inputImage"
     //     value="'.$blob->getUrl().'" />';
                 ?>
+ <img style='max-width: 300px' src="<?php echo $blob->getUrl(); ?>"/><br/> 
+<h5>Image to analyze:</h5>
 <div class="form-group">
   <label for="usr">Image URL:</label>
   <input type="text" style="max-width: 600px" class="form-control" name="inputImage" id="inputImage" value="<?php echo $blob->getUrl(); ?>" />
 </div>
+<div id="wrapper" style="width:1020px; ">
+        <div id="jsonOutput" style="width:600px; ">
+            Response:
+            <br><br>
+            <textarea id="responseTextArea" class="UIInput"
+                      style="width:580px; height:400px;"></textarea>
+        </div>
+        <<!-- div id="imageDiv" style="width:420px; display:table-cell;">
+            Source image:
+            <br><br>
+            <img id="sourceImage" width="400" />
+        </div> -->
+    </div>
                 <?php
             }
         
@@ -117,12 +131,13 @@ else
 }
 ?>
 
-
+<center>
 <form method="post" action="phpQS.php?Cleanup&containerName=<?php echo $containerName; ?>">
     <div class="btn btn-group">
     <button class="btn btn-danger" type="submit">Clean up the Blob</button>
-    <button class="btn btn-primary" onclick="processImage()">Analyze image</button></div>
+    <button class="btn btn-primary" type="button" onclick="processImage()">Analyze image</button></div>
 </form>
+</center>
 
     
      
@@ -180,18 +195,6 @@ else
     
     
     <br><br>
-    <div id="wrapper" style="width:1020px; ">
-        <div id="jsonOutput" style="width:600px; ">
-            Response:
-            <br><br>
-            <textarea id="responseTextArea" class="UIInput"
-                      style="width:580px; height:400px;"></textarea>
-        </div>
-        <<!-- div id="imageDiv" style="width:420px; display:table-cell;">
-            Source image:
-            <br><br>
-            <img id="sourceImage" width="400" />
-        </div> -->
-    </div>
+    
     </body>
     </html>
