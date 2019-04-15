@@ -65,13 +65,11 @@ if (!isset($_GET["Cleanup"])) {
             foreach ($result->getBlobs() as $blob)
             {
                 echo $blob->getName().": ".$blob->getUrl()."<br />";
-                
-                echo "The file is uploaded successfully! "; 
     // echo '<input type="text" class="" name="inputImage" id="inputImage"
     //     value="'.$blob->getUrl().'" />';
                 ?>
 <div class="col-xs-6">
- <img style='max-width: 300px' src="<?php echo $blob->getUrl(); ?>"/><br/>  
+ <img style='max-width: 600px' src="<?php echo $blob->getUrl(); ?>"/><br/>  
 <div class="form-group">
   <label for="usr">Image URL:</label>
   <input type="text" style="max-width: 600px" class="form-control" name="inputImage" id="inputImage" value="<?php echo $blob->getUrl(); ?>" />
@@ -79,9 +77,7 @@ if (!isset($_GET["Cleanup"])) {
 </div>
 <div class="col-xs-6">
 <div id="wrapper" style="width:1020px; ">
-        <div id="jsonOutput" style="width:600px; ">
-            Response:
-            <br><br>
+        <div id="jsonOutput" style="width:600px; "> 
             <textarea id="responseTextArea" class="UIInput"
                       style="width:580px; height:400px;"></textarea>
         </div>
