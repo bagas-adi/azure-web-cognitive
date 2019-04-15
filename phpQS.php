@@ -114,13 +114,9 @@ if (!isset($_GET["Cleanup"])) {
         // Get blob.
         echo "This is the content of the blob uploaded: ";
         $blob = $blobClient->getBlob($containerName, $fileToUpload);
-        echo '<img src="'.$blob->getUrl().'"/>';
-        // tambahan
-        // $blob = $this->blobRestProxy->getBlob($this->containerName, $blob_name.'.jpg');
-        // header("Content-Type:image/jpeg");
-        // header('Content-Disposition: attachment; filename="' . $blob_name . '"');
-        // end
-        // fpassthru($blob->getContentStream());
+        header("Content-Type:image/jpeg");
+        header('Content-Disposition: attachment; filename="' . $fileToUpload . '"');
+        fpassthru($blob->getContentStream());
         echo "<br />";
     }
     catch(ServiceException $e){
