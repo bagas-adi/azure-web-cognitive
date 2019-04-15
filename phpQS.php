@@ -46,7 +46,7 @@ $connectionString = "DefaultEndpointsProtocol=https;AccountName=bagasap90;Accoun
 // Create blob client.
 $blobClient = BlobRestProxy::createBlobService($connectionString);
 
-$fileToUpload = "HelloWorld.txt"; 
+$fileToUpload = "business_meeting.jpg"; 
 if (!isset($_GET["Cleanup"])) {
     // Create container options object.
     $createContainerOptions = new CreateContainerOptions();
@@ -78,7 +78,7 @@ if (!isset($_GET["Cleanup"])) {
         $blobClient->createContainer($containerName, $createContainerOptions);
 
         // Getting local file so that we can upload it to Azure
-        $myfile = fopen($fileToUpload, "r") or die("Unable to open file!");
+        $myfile = fopen($fileToUpload, "rb") or die("Unable to open file!");
         fclose($myfile);
         
         # Upload file as a block blob
@@ -86,7 +86,7 @@ if (!isset($_GET["Cleanup"])) {
         echo $fileToUpload;
         echo "<br />";
         
-        $content = fopen($fileToUpload, "r");
+        $content = fopen($fileToUpload, "rb");
         // $options = new CreateBlobOptions();
         // $options->setBlobContentType("image/jpeg");
 
@@ -113,14 +113,14 @@ if (!isset($_GET["Cleanup"])) {
 
         // Get blob.
         echo "This is the content of the blob uploaded: ";
-        // echo '<img src="'.$blob->getUrl().'"/>';
-        $blob = $blobClient->getBlob($containerName, $fileToUpload);
+        echo '<img src="'.$blob->getUrl().'"/>';
+        // $blob = $blobClient->getBlob($containerName, $fileToUpload);
         // tambahan
         // $blob = $this->blobRestProxy->getBlob($this->containerName, $blob_name.'.jpg');
         // header("Content-Type:image/jpeg");
         // header('Content-Disposition: attachment; filename="' . $blob_name . '"');
         // end
-        fpassthru($blob->getContentStream());
+        // fpassthru($blob->getContentStream());
         echo "<br />";
     }
     catch(ServiceException $e){
