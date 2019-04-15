@@ -31,7 +31,6 @@
 #  - Storage Emulator - http://azure.microsoft.com/en-us/documentation/articles/storage-use-emulator/ 
 #
 **/
-header('Content-Type: text/html; charset=utf-8');
 require_once 'vendor/autoload.php';
 require_once "./random_string.php";
 
